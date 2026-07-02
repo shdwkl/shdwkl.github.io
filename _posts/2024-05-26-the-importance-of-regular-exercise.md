@@ -1,23 +1,10 @@
 ---
-
 title: The Importance of Regular Exercise
-
 date: 2023-03-20 12:00:00 +0000
-
-categories: [Health, Fitness]
-
-tags: [Exercise, Wellness]
-
-author: John Doe
-
+author: Yousef Adel
 description: Regular exercise is essential for maintaining good health and overall well-being.
-
 toc: true
-
 comments: true
-
-pin: true
-
 ---
 
 # The Importance of Regular Exercise
