@@ -14,7 +14,7 @@ related:
   - "[[Base-and-Bounds Provides Dynamic Relocation]]"
   - "[[Hardware Registers Enable Efficient Address Translation]]"
   - "[[Virtualization MOC]]"
-prerequisites:
+categories: [books, OSTEP]
 ---
 
 
