@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Get the last commit details
+HASH=$(git log -1 --pretty=format:"%h")
+MSG=$(git log -1 --pretty=format:"%s")
+
+# Execute the logger script
+python3 /home/yusuf/Documents/LogSec/scripts/log_commit.py --repo "personal-blog" --hash "$HASH" --msg "$MSG"
