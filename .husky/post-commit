@@ -1,8 +1,26 @@
 #!/bin/bash
 
-# Get the last commit details
+# Capture dynamic repository details
+REPO_PATH=$(git rev-parse --show-toplevel)
+REPO_NAME=$(basename "$REPO_PATH")
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+REMOTE_URL=$(git config --get remote.origin.url || echo "local-only")
+
+# Capture commit details
 HASH=$(git log -1 --pretty=format:"%h")
 MSG=$(git log -1 --pretty=format:"%s")
+COMMIT_TIME=$(date +"%H:%M") # Captures 24h format like 11:40
 
-# Execute the logger script
-python3 /home/yusuf/Documents/LogSec/scripts/log_commit.py --repo "personal-blog" --hash "$HASH" --msg "$MSG"
+# Execute the logger script with the new flags
+python3 /home/yusuf/Documents/LogSec/scripts/log_commit.py \
+    --repo "$REPO_NAME" \
+    --path "$REPO_PATH" \
+    --branch "$BRANCH" \
+    --remote "$REMOTE_URL" \
+    --hash "$HASH" \
+    --msg "$MSG" \
+    --time "$COMMIT_TIME"
+
+# Log the commit to a central file
+echo "[$(date)] Committed to $REPO_NAME (Path: $REPO_PATH) on branch $BRANCH. Hash: $HASH" MSG: $MSG >> ~/commit_log.txt
+
