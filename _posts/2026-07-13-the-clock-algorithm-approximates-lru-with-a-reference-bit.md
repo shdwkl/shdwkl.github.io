@@ -96,7 +96,7 @@ This optimizes for both recency and I/O cost.
 
 ## Clock vs. LRU Performance
 
-Clock doesn't maintain exact recency order—it only knows "accessed since last sweep" (binary). For most workloads, this coarse approximation of [LRU Approximates Optimal by Evicting Least Recently Used Pages - LRU]({% post_url 2026-07-10-lru-approximates-optimal-by-evicting-least-recently-used-pages %}) suffices:
+Clock doesn't maintain exact recency order—it only knows "accessed since last sweep" (binary). For most workloads, this coarse approximation of [LRU Approximates Optimal by Evicting Least Recently Used Pages - LRU]({% post_url 2026-07-13-lru-approximates-optimal-by-evicting-least-recently-used-pages %}) suffices:
 
 - Near-LRU performance on typical workloads
 - O(1) overhead per memory access (hardware sets bit)

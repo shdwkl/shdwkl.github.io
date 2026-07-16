@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Optimal Page Replacement Sets the Theoretical Lower Bound
-date: 2026-07-12 06:21 +0300
+date: 2026-07-10 06:21 +0300
 type: algorithm
 source: "OSTEP Ch. 22: Beyond Physical Memory: Policies"
 tags:
@@ -73,8 +73,8 @@ OPT is sometimes called **Belady's algorithm** after László Bélády, who form
 
 Since we can't know the future, practical algorithms use the **past** as a predictor:
 
-- [LRU Approximates Optimal by Evicting Least Recently Used Pages \| LRU]({% post_url 2026-07-10-lru-approximates-optimal-by-evicting-least-recently-used-pages %}): Evict least recently used (past predicts future)
-- [The Clock Algorithm Approximates LRU with a Reference Bit \| Clock]({% post_url 2026-07-10-the-clock-algorithm-approximates-lru-with-a-reference-bit %}): Approximate LRU with hardware support
+- [LRU Approximates Optimal by Evicting Least Recently Used Pages \| LRU]({% post_url 2026-07-13-lru-approximates-optimal-by-evicting-least-recently-used-pages %}): Evict least recently used (past predicts future)
+- [The Clock Algorithm Approximates LRU with a Reference Bit \| Clock]({% post_url 2026-07-13-the-clock-algorithm-approximates-lru-with-a-reference-bit %}): Approximate LRU with hardware support
 
 
 The key insight: programs exhibit **temporal locality**—recently used pages are likely to be used again soon. This makes past usage a reasonable proxy for future usage.

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: FIFO Page Replacement Evicts the Oldest Page
-date: 2026-07-12 06:25 +0300
+date: 2026-07-10 06:25 +0300
 type: algorithm
 source: "OSTEP Ch. 22: Beyond Physical Memory: Policies"
 tags:
@@ -97,4 +97,4 @@ FIFO can work reasonably when:
 - Memory is plentiful (few evictions needed)
 - Implementation simplicity outweighs performance
 
-However, LRU approximations (like [The Clock Algorithm Approximates LRU with a Reference Bit - Clock]({% post_url 2026-07-10-the-clock-algorithm-approximates-lru-with-a-reference-bit %})) add minimal complexity while performing much better.
+However, LRU approximations (like [The Clock Algorithm Approximates LRU with a Reference Bit - Clock]({% post_url 2026-07-13-the-clock-algorithm-approximates-lru-with-a-reference-bit %})) add minimal complexity while performing much better.

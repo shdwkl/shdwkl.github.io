@@ -77,7 +77,7 @@ Rather than perfect timestamps, hardware provides a **reference bit** (accessed 
 1. Periodically clear all reference bits
 2. On eviction, prefer pages with reference bit = 0
 
-This doesn't give exact LRU ordering, but approximates it well. The [The Clock Algorithm Approximates LRU with a Reference Bit - Clock algorithm]({% post_url 2026-07-10-the-clock-algorithm-approximates-lru-with-a-reference-bit %})  formalizes this approach.
+This doesn't give exact LRU ordering, but approximates it well. The [The Clock Algorithm Approximates LRU with a Reference Bit - Clock algorithm]({% post_url 2026-07-13-the-clock-algorithm-approximates-lru-with-a-reference-bit %})  formalizes this approach.
 
 ## LRU Is a Stack Algorithm
 
