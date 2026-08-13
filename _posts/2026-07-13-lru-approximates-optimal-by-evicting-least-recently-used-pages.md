@@ -24,12 +24,12 @@ categories: [books, OSTEP]
 
 # LRU Approximates Optimal by Evicting Least Recently Used Pages
 
-> Least Recently Used (LRU) page replacement evicts the page that hasn't been accessed for the longest time. This policy uses past behavior to predict future access, leveraging temporal locality—recently used pages are likely to be used again soon. LRU performs close to optimal for many workloads but is expensive to implement perfectly.
+> Least Recently Used (LRU) page replacement evicts the page that hasn't been accessed for the longest time. This policy uses past behavior to predict future access, leveraging temporal locality-recently used pages are likely to be used again soon. LRU performs close to optimal for many workloads but is expensive to implement perfectly.
 {: .prompt-tip }
 
 ## The Key Insight: Past Predicts Future
 
-[[Optimal Page Replacement Sets the Theoretical Lower Bound|OPT]] evicts the page used furthest in the future—but we can't know the future. LRU inverts this: evict the page used furthest in the past. This works because programs exhibit **temporal locality**: if a page was accessed recently, it's likely to be accessed again soon.
+[[Optimal Page Replacement Sets the Theoretical Lower Bound|OPT]] evicts the page used furthest in the future-but we can't know the future. LRU inverts this: evict the page used furthest in the past. This works because programs exhibit **temporal locality**: if a page was accessed recently, it's likely to be accessed again soon.
 
 ```
 OPT:  Evict page with longest time to NEXT access (future)
@@ -68,7 +68,7 @@ Perfect LRU requires updating metadata on **every memory access**:
 
 2. **Stack approach**: Maintain a stack of pages; move page to top on access. On eviction, remove bottom. Problem: stack manipulation on every access.
 
-Both approaches require O(n) work on eviction or constant overhead on every access—neither scales well.
+Both approaches require O(n) work on eviction or constant overhead on every access-neither scales well.
 
 ## Hardware Support: Reference Bit
 

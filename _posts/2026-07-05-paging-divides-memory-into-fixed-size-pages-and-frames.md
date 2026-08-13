@@ -26,12 +26,12 @@ categories: [books, OSTEP]
 
 ## The Core Idea
 
-Segmentation allocated variable-sized regions, leading to [[External Fragmentation Wastes Memory Between Variable-Sized Segments|external fragmentation]]—scattered holes that could not satisfy requests even when total free memory was sufficient. Paging takes the opposite approach: divide everything into uniform chunks.
+Segmentation allocated variable-sized regions, leading to [[External Fragmentation Wastes Memory Between Variable-Sized Segments|external fragmentation]]-scattered holes that could not satisfy requests even when total free memory was sufficient. Paging takes the opposite approach: divide everything into uniform chunks.
 
 **Virtual address space**: divided into fixed-size **pages** (e.g., 4 KB each)
 **Physical memory**: divided into fixed-size **frames** (same size as pages)
 
-When a process needs memory, the OS assigns any free frame to any virtual page. Since all frames are identical, there is no "hole too small" problem—any free frame works.
+When a process needs memory, the OS assigns any free frame to any virtual page. Since all frames are identical, there is no "hole too small" problem-any free frame works.
 
 ## Visualizing Paged Memory
 
@@ -58,16 +58,16 @@ Virtual Address Space        Physical Memory (8 frames)
                             +--------+
 ```
 
-The virtual pages are contiguous (0, 1, 2, 3), but they map to non-contiguous physical frames (1, 5, 4, 3). This is perfectly fine—the hardware translates each page independently.
+The virtual pages are contiguous (0, 1, 2, 3), but they map to non-contiguous physical frames (1, 5, 4, 3). This is perfectly fine-the hardware translates each page independently.
 
 ## No External Fragmentation
 
-With segmentation, if physical memory had three 10 KB holes, a 25 KB segment could not be allocated. With paging, a 25 KB allocation simply needs seven 4 KB pages (28 KB, rounded up). Any seven free frames suffice—they need not be adjacent. This is the key insight: **fixed-size allocation eliminates external fragmentation**.
+With segmentation, if physical memory had three 10 KB holes, a 25 KB segment could not be allocated. With paging, a 25 KB allocation simply needs seven 4 KB pages (28 KB, rounded up). Any seven free frames suffice-they need not be adjacent. This is the key insight: **fixed-size allocation eliminates external fragmentation**.
 
 ## The Trade-Off: Internal Fragmentation
 
-Paging introduces a different kind of waste. If a process needs 25 KB but pages are 4 KB, it gets 7 pages (28 KB)—wasting 3 KB inside the last page. This is internal fragmentation, but it is bounded: the worst case is one page minus one byte per allocation. With typical 4 KB pages, this is negligible compared to the unbounded external fragmentation of segmentation.
+Paging introduces a different kind of waste. If a process needs 25 KB but pages are 4 KB, it gets 7 pages (28 KB)-wasting 3 KB inside the last page. This is internal fragmentation, but it is bounded: the worst case is one page minus one byte per allocation. With typical 4 KB pages, this is negligible compared to the unbounded external fragmentation of segmentation.
 
 ## Why Fixed Size Works
 
-The power of paging comes from uniformity. The [[The Page Table Stores Virtual-to-Physical Mappings|page table]] simply records which frame holds each page. The OS free list becomes trivial—any free frame is as good as any other. Allocation is O(1) (grab any frame), and there is no need for complex best-fit or coalescing algorithms.
+The power of paging comes from uniformity. The [[The Page Table Stores Virtual-to-Physical Mappings|page table]] simply records which frame holds each page. The OS free list becomes trivial-any free frame is as good as any other. Allocation is O(1) (grab any frame), and there is no need for complex best-fit or coalescing algorithms.

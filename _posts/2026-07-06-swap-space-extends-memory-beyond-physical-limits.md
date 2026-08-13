@@ -27,7 +27,7 @@ categories: [books, OSTEP]
 
 ## The Memory Hierarchy Insight
 
-Physical memory (RAM) is fast but limited and expensive. Disk storage is slow but large and cheap. The operating system exploits this hierarchy by keeping frequently-used pages in RAM and relegating rarely-used pages to disk. From the process's perspective, it still has access to its entire [[The Address Space Abstracts Physical Memory for Each Process|address space]]—the OS transparently manages which portions reside where.
+Physical memory (RAM) is fast but limited and expensive. Disk storage is slow but large and cheap. The operating system exploits this hierarchy by keeping frequently-used pages in RAM and relegating rarely-used pages to disk. From the process's perspective, it still has access to its entire [[The Address Space Abstracts Physical Memory for Each Process|address space]]-the OS transparently manages which portions reside where.
 
 ## Swap Space Layout
 

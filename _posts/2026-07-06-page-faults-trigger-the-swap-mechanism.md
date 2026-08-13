@@ -30,7 +30,7 @@ categories: [books, OSTEP]
 
 ## The Page Fault Flow
 
-A page fault is not an error—it's the normal mechanism for bringing pages into memory on demand. The complete flow:
+A page fault is not an error-it's the normal mechanism for bringing pages into memory on demand. The complete flow:
 
 
 1. Process accesses virtual address
@@ -66,11 +66,11 @@ Consider a `mov` instruction that faults mid-execution. The hardware must be abl
 1. **Precise exceptions**: The processor state at fault time must exactly reflect the state before the instruction
 2. **Idempotent restart**: Re-executing the instruction produces correct results
 
-Complex instructions (like x86 string operations) complicate this—they may have partially completed. Hardware architects must ensure clean restart semantics.
+Complex instructions (like x86 string operations) complicate this-they may have partially completed. Hardware architects must ensure clean restart semantics.
 
 ## Blocking and Scheduling
 
-Disk I/O takes millions of CPU cycles (~10ms versus ~1ns per cycle). During this time, the faulting process is blocked and the OS schedules another process. This interleaving is why swapping "works"—we pay the disk cost but overlap it with useful computation.
+Disk I/O takes millions of CPU cycles (~10ms versus ~1ns per cycle). During this time, the faulting process is blocked and the OS schedules another process. This interleaving is why swapping "works"-we pay the disk cost but overlap it with useful computation.
 
 ```text
 Process A:  [run]----[fault]----------------[continue]
@@ -83,7 +83,7 @@ Process B:       [run]--------[run]
 - **Major fault**: Page must be read from disk (swap or file)
 - **Minor fault**: Page exists in memory but PTE wasn't set (e.g., copy-on-write, shared library already loaded)
 
-Minor faults are much cheaper—no disk I/O required. The OS exploits this through techniques like sharing pages between processes and copy-on-write fork.
+Minor faults are much cheaper-no disk I/O required. The OS exploits this through techniques like sharing pages between processes and copy-on-write fork.
 
 ## Connection to Demand Paging
 

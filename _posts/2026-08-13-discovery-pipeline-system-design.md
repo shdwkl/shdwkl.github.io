@@ -10,16 +10,16 @@ tags:
 
 ## 1. Goal
 
-Design the **Discovery Pipeline** — the multi-source job ingestion subsystem of the Vecta AI platform. The pipeline scrapes job postings from 8+ source types (JobSpy, Scrapling spiders, REST APIs, RSS feeds, ATS providers, manual URL import, unified composite channels, and ATS portal scans), normalizes heterogeneous scraped data into a canonical `Job` model, deduplicates, persists with trust scoring, embeds for semantic search, and matches against user profiles. It is orchestrated via Celery with real-time SSE progress streaming to the frontend.
+Design the **Discovery Pipeline** - the multi-source job ingestion subsystem of the Vecta AI platform. The pipeline scrapes job postings from 8+ source types (JobSpy, Scrapling spiders, REST APIs, RSS feeds, ATS providers, manual URL import, unified composite channels, and ATS portal scans), normalizes heterogeneous scraped data into a canonical `Job` model, deduplicates, persists with trust scoring, embeds for semantic search, and matches against user profiles. It is orchestrated via Celery with real-time SSE progress streaming to the frontend.
 
 ## 2. Non-Goals (YAGNI)
 
-- **Browser-use autofill / application submission** — handled by the separate [[Browser Engine]] subsystem.
-- **LLM evaluation of job matches** — handled by the [[Evaluations]] subsystem, triggered post-match.
-- **Resume parsing / optimization** — handled by the [[Resumes]] subsystem.
-- **Billing / credit charging for discovery runs** — discovery is free-tier; credit accounting lives in [[AI Credits System]].
-- **Workflow Engine v2** — the pipeline supports an optional `WORKFLOW_ENGINE_ENABLED` bypass, but the workflow engine itself is a separate subsystem.
-- **Real-time job alerts / notifications scheduling** — the pipeline emits completion events; scheduling recurring discovery is out of scope.
+- **Browser-use autofill / application submission** - handled by the separate [[Browser Engine]] subsystem.
+- **LLM evaluation of job matches** - handled by the [[Evaluations]] subsystem, triggered post-match.
+- **Resume parsing / optimization** - handled by the [[Resumes]] subsystem.
+- **Billing / credit charging for discovery runs** - discovery is free-tier; credit accounting lives in [[AI Credits System]].
+- **Workflow Engine v2** - the pipeline supports an optional `WORKFLOW_ENGINE_ENABLED` bypass, but the workflow engine itself is a separate subsystem.
+- **Real-time job alerts / notifications scheduling** - the pipeline emits completion events; scheduling recurring discovery is out of scope.
 
 ## 3. Requirements
 
@@ -27,23 +27,23 @@ Design the **Discovery Pipeline** — the multi-source job ingestion subsystem o
 
 | Priority | ID | Requirement |
 |----------|----|-------------|
-| P0 | FR-01 | **Multi-source ingestion** — The system MUST ingest job postings from 8+ source types through a unified adapter interface, with each source implementing a common `fetch()` contract that returns normalized `ScrapedJob` objects. |
-| P0 | FR-02 | **Canonical normalization + dedup** — Heterogeneous scraped data (HTML, JSON, RSS, DataFrames) MUST be normalized into a single canonical `Job` model and deduplicated via a `(source, source_job_id)` unique constraint before persistence. |
-| P1 | FR-03 | **Real-time progress streaming** — Pipeline progress (scrape → embed → match phases) MUST be streamed to the frontend in real time via Server-Sent Events, with reconnection replay support for dropped clients. |
+| P0 | FR-01 | **Multi-source ingestion** - The system MUST ingest job postings from 8+ source types through a unified adapter interface, with each source implementing a common `fetch()` contract that returns normalized `ScrapedJob` objects. |
+| P0 | FR-02 | **Canonical normalization + dedup** - Heterogeneous scraped data (HTML, JSON, RSS, DataFrames) MUST be normalized into a single canonical `Job` model and deduplicated via a `(source, source_job_id)` unique constraint before persistence. |
+| P1 | FR-03 | **Real-time progress streaming** - Pipeline progress (scrape → embed → match phases) MUST be streamed to the frontend in real time via Server-Sent Events, with reconnection replay support for dropped clients. |
 
 ### 3.2 Additional Functional Requirements
 
 | ID | Requirement |
 |----|-------------|
-| FR-04 | **Partial failure tolerance** — Individual source failures MUST NOT fail the entire pipeline; the run completes with `PARTIAL` status when at least one source succeeds. |
-| FR-05 | **Manual single-URL import** — Users MAY import a single job posting by URL, routed through spider matching then LLM extraction fallback. |
-| FR-06 | **Bulk CSV import** — Users MAY import jobs via CSV through `django-import-export` `JobResource`. |
-| FR-07 | **Trust scoring** — Every ingested job MUST receive a trust score (0-100) and level (high/medium/low) based on URL validity, domain reputation, and company-domain alignment heuristics. |
-| FR-08 | **Tier-based source capping** — Free-tier users are capped at 3 sources × 20 jobs/source; paid tiers are uncapped. |
-| FR-09 | **Two-tier caching** — Results are cached in Redis (per-run) and the Postgres `Job` table (24h pool cache) to avoid redundant scraping. |
-| FR-10 | **Stale run reaping** — Runs stuck in non-terminal states for >30 minutes MUST be automatically marked `FAILED` by a scheduled maintenance task. |
-| FR-11 | **Semantic matching** — After embedding, jobs MUST be matched against the user's profile via the `SemanticMatcher` (RRF fusion of semantic + keyword scores). |
-| FR-12 | **BYOK support** — API sources MUST support Bring-Your-Own-Key resolution (injected key > user BYOK key > system settings key). |
+| FR-04 | **Partial failure tolerance** - Individual source failures MUST NOT fail the entire pipeline; the run completes with `PARTIAL` status when at least one source succeeds. |
+| FR-05 | **Manual single-URL import** - Users MAY import a single job posting by URL, routed through spider matching then LLM extraction fallback. |
+| FR-06 | **Bulk CSV import** - Users MAY import jobs via CSV through `django-import-export` `JobResource`. |
+| FR-07 | **Trust scoring** - Every ingested job MUST receive a trust score (0-100) and level (high/medium/low) based on URL validity, domain reputation, and company-domain alignment heuristics. |
+| FR-08 | **Tier-based source capping** - Free-tier users are capped at 3 sources × 20 jobs/source; paid tiers are uncapped. |
+| FR-09 | **Two-tier caching** - Results are cached in Redis (per-run) and the Postgres `Job` table (24h pool cache) to avoid redundant scraping. |
+| FR-10 | **Stale run reaping** - Runs stuck in non-terminal states for >30 minutes MUST be automatically marked `FAILED` by a scheduled maintenance task. |
+| FR-11 | **Semantic matching** - After embedding, jobs MUST be matched against the user's profile via the `SemanticMatcher` (RRF fusion of semantic + keyword scores). |
+| FR-12 | **BYOK support** - API sources MUST support Bring-Your-Own-Key resolution (injected key > user BYOK key > system settings key). |
 
 ### 3.3 Non-Functional Requirements (Quantified)
 
@@ -73,18 +73,18 @@ Design the **Discovery Pipeline** — the multi-source job ingestion subsystem o
 
 ## 4. Core Entities
 
-- **`DiscoveryRun`** — The central aggregate root representing one pipeline execution. Tracks immutable inputs (engine, sources, keywords, location, limits), mutable state (status, phase results), and timing. Status state machine: `PENDING → SCRAPING → EMBDENDING → MATCHING → COMPLETED | FAILED | PARTIAL`. Has M2M to `Job` via `discovered_jobs`.
-- **`DiscoveryEngine`** (enum) — Acquisition channel classification: `API`, `RSS`, `PROVIDER`, `SCRAPING`, `JOBSPY`, `MANUAL`, `UNIFIED`, `PORTAL`. Drives factory dispatch.
-- **`DiscoveryRunStatus`** (enum) — State machine values: `PENDING`, `SCRAPING`, `EMBEDDING`, `MATCHING`, `COMPLETED`, `FAILED`, `PARTIAL`.
-- **`Job`** — The canonical persisted job posting. Unique constraint on `(source, source_job_id)`. Carries trust metadata (`trust_score`, `trust_level`, `trust_flags`), embedding status (`is_embedded`), and liveness (`liveness_status`, `last_verified`).
-- **`ScrapedJob`** — Normalized in-memory representation of a scraped posting before persistence. Auto-generates `source_job_id` from URL MD5. Carries salary, job type, experience level, raw data.
-- **`ElementFingerprint`** — Persists adaptive CSS selector fingerprints for Scrapling's anti-drift mechanism. Unique on `(site_key, identifier)`.
-- **`RequestedJobSource`** — Tracks user-requested domains lacking a dedicated spider (for LLM fallback path). Unique on `domain`, with `request_count`.
-- **`JobSource`** (ABC) — Abstract base for all source adapters. Self-registers via `__init_subclass__` into `JobSource.registry`. Defines `fetch()` contract.
-- **`DiscoverySourceResult`** — Per-source aggregation of scrape results: created job IDs, cached IDs, counts, errors, timing.
-- **`PipelineContext`** — State bag passed between Celery phases. Reconstructed from `DiscoveryRun` DB row at each phase boundary (the DB row is shared state, not in-memory objects).
-- **`ScraplingConfig`** — Per-scrape configuration: keywords, location, proxy, headless, Cloudflare solving, stealth flags, timeouts.
-- **`ChannelDef`** / **`CHANNELS`** — Curated marketplace channel definitions (remote-first, enterprise-tech, startup-vc, etc.) for unified discovery.
+- **`DiscoveryRun`** - The central aggregate root representing one pipeline execution. Tracks immutable inputs (engine, sources, keywords, location, limits), mutable state (status, phase results), and timing. Status state machine: `PENDING → SCRAPING → EMBDENDING → MATCHING → COMPLETED | FAILED | PARTIAL`. Has M2M to `Job` via `discovered_jobs`.
+- **`DiscoveryEngine`** (enum) - Acquisition channel classification: `API`, `RSS`, `PROVIDER`, `SCRAPING`, `JOBSPY`, `MANUAL`, `UNIFIED`, `PORTAL`. Drives factory dispatch.
+- **`DiscoveryRunStatus`** (enum) - State machine values: `PENDING`, `SCRAPING`, `EMBEDDING`, `MATCHING`, `COMPLETED`, `FAILED`, `PARTIAL`.
+- **`Job`** - The canonical persisted job posting. Unique constraint on `(source, source_job_id)`. Carries trust metadata (`trust_score`, `trust_level`, `trust_flags`), embedding status (`is_embedded`), and liveness (`liveness_status`, `last_verified`).
+- **`ScrapedJob`** - Normalized in-memory representation of a scraped posting before persistence. Auto-generates `source_job_id` from URL MD5. Carries salary, job type, experience level, raw data.
+- **`ElementFingerprint`** - Persists adaptive CSS selector fingerprints for Scrapling's anti-drift mechanism. Unique on `(site_key, identifier)`.
+- **`RequestedJobSource`** - Tracks user-requested domains lacking a dedicated spider (for LLM fallback path). Unique on `domain`, with `request_count`.
+- **`JobSource`** (ABC) - Abstract base for all source adapters. Self-registers via `__init_subclass__` into `JobSource.registry`. Defines `fetch()` contract.
+- **`DiscoverySourceResult`** - Per-source aggregation of scrape results: created job IDs, cached IDs, counts, errors, timing.
+- **`PipelineContext`** - State bag passed between Celery phases. Reconstructed from `DiscoveryRun` DB row at each phase boundary (the DB row is shared state, not in-memory objects).
+- **`ScraplingConfig`** - Per-scrape configuration: keywords, location, proxy, headless, Cloudflare solving, stealth flags, timeouts.
+- **`ChannelDef`** / **`CHANNELS`** - Curated marketplace channel definitions (remote-first, enterprise-tech, startup-vc, etc.) for unified discovery.
 
 ---
 
@@ -103,13 +103,13 @@ POST /api/jobs/discover/
 | Field | Type | Required | Default | Notes |
 |-------|------|----------|---------|-------|
 | `engine` | ChoiceField | no | `scraping` | `DiscoveryEngine.choices` |
-| `keywords` | CharField | **yes** | — | max 255 |
+| `keywords` | CharField | **yes** | - | max 255 |
 | `location` | CharField | no | `"Remote"` | |
 | `limit_per_source` | IntegerField | no | 20 | 1–100 |
 | `min_match_score` | IntegerField | no | 30 | 0–100 |
 | `max_days_old` | IntegerField | no | null | 1–365 (Adzuna window) |
 | `profile_id` | IntegerField | no | null | |
-| `sources` | ListField(CharField) | no | — | min_length 1 |
+| `sources` | ListField(CharField) | no | - | min_length 1 |
 | `targets` | ListField(DictField) | no | `[]` | portal/ATS targets |
 | `manual_job_url` | CharField | no | null | required if engine=manual |
 | `proxy` | CharField | no | null | Scrapling-only |
@@ -347,7 +347,7 @@ POST /api/jobs/discover/ (engine=manual)
 |-----------|----------------|
 | `JobViewSet.discover()` | API entry point. Validates request, creates `DiscoveryRun`, dispatches Celery task, returns 202. |
 | `orchestrate_discovery` | Lightweight dispatcher. Resolves sources, applies tier caps, builds Canvas pipeline, fires it. |
-| `discover_source_task` | Per-source scraper. Never raises — returns error dict so chord always fires. |
+| `discover_source_task` | Per-source scraper. Never raises - returns error dict so chord always fires. |
 | `aggregate_scrape_results` | Chord callback. Tallies per-source stats, determines terminal vs. continue. |
 | `fan_out_embed` | Chunks job IDs, builds embed chord, substitutes itself via `self.replace()`. |
 | `match_task` | Terminal phase. Runs semantic matching, determines `COMPLETED` vs `PARTIAL`. |
@@ -368,33 +368,33 @@ POST /api/jobs/discover/ (engine=manual)
 
 ### 8.1 Deep Dive: Multi-Source Ingestion Gateway
 
-**Problem:** The platform must ingest job postings from 8+ fundamentally different source types — REST APIs (Adzuna, JSearch), RSS feeds (Remotive, HN), HTML spiders (Scrapling: Indeed, LinkedIn), DataFrame strategies (JobSpy), ATS providers (Greenhouse, Ashby), and portal scanners (Workday, BambooHR). Each has different auth, pagination, rate limits, response formats, and anti-bot measures.
+**Problem:** The platform must ingest job postings from 8+ fundamentally different source types - REST APIs (Adzuna, JSearch), RSS feeds (Remotive, HN), HTML spiders (Scrapling: Indeed, LinkedIn), DataFrame strategies (JobSpy), ATS providers (Greenhouse, Ashby), and portal scanners (Workday, BambooHR). Each has different auth, pagination, rate limits, response formats, and anti-bot measures.
 
 **Solution: Polymorphic adapter hierarchy with auto-registration.**
 
 ```
 JobSource (ABC)
-├── APISource           — REST/GraphQL with BYOK resolution, header injection
-├── ATSJobSource        — ATS providers with dual identity (registry + URL detector)
-├── ScraplingJobSource  — Scrapling Spider + JobSource multiple inheritance
-├── JobSpyJobSource     — DataFrame-based strategies with clean_dataframe()
-├── PortalJobSource     — ATS portal handlers with registry key prefixing
-└── RSSSource           — feedparser-based with entry parsing
+├── APISource           - REST/GraphQL with BYOK resolution, header injection
+├── ATSJobSource        - ATS providers with dual identity (registry + URL detector)
+├── ScraplingJobSource  - Scrapling Spider + JobSource multiple inheritance
+├── JobSpyJobSource     - DataFrame-based strategies with clean_dataframe()
+├── PortalJobSource     - ATS portal handlers with registry key prefixing
+└── RSSSource           - feedparser-based with entry parsing
 ```
 
 **Auto-registration via `__init_subclass__`:** Defining a subclass with a `key` attribute automatically adds it to `JobSource.registry[key]`. No explicit registration call, no DB migration, no config change. Adding a new source = creating one file.
 
 **Key design decisions:**
-1. **Single universal engine** — All engine categories (`scrapling`, `jobspy`, `portal`, `api`, `rss`, `providers`, `unified`) resolve to `JobSourceEngine`. The `ENGINE_REGISTRY` is a flat map, not a class hierarchy.
-2. **`fetch()` contract** — Every source implements `fetch(*, keywords, location, limit) → list[ScrapedJob]`. The engine never inspects source internals.
-3. **Polymorphic factory** — `source.from_run(run)` lets sources reconstruct state (BYOK keys, targets, config) from the `DiscoveryRun` row.
-4. **Post-persist hook** — `source.on_post_persist(run, result)` lets sources emit notifications or update metrics after their jobs are saved.
+1. **Single universal engine** - All engine categories (`scrapling`, `jobspy`, `portal`, `api`, `rss`, `providers`, `unified`) resolve to `JobSourceEngine`. The `ENGINE_REGISTRY` is a flat map, not a class hierarchy.
+2. **`fetch()` contract** - Every source implements `fetch(*, keywords, location, limit) → list[ScrapedJob]`. The engine never inspects source internals.
+3. **Polymorphic factory** - `source.from_run(run)` lets sources reconstruct state (BYOK keys, targets, config) from the `DiscoveryRun` row.
+4. **Post-persist hook** - `source.on_post_persist(run, result)` lets sources emit notifications or update metrics after their jobs are saved.
 
 **BYOK resolution precedence** (in `APISource`): injected `api_key` > user's `UserApiKey` (matched by `byok_provider`) > system settings key. This enables per-user API key overrides without code changes.
 
 **Trade-offs:**
 - **Pro:** Adding a source requires zero changes to existing code (open/closed principle).
-- **Con:** The registry is a global mutable class variable — import order matters, and testing requires care to avoid cross-test contamination.
+- **Con:** The registry is a global mutable class variable - import order matters, and testing requires care to avoid cross-test contamination.
 - **Mitigation:** `SourceRegistry._registry()` forces a fresh import on first access and catches `ImportError` gracefully (missing optional deps like `scrapling`/`jobspy` don't crash the whole registry).
 
 ### 8.2 Deep Dive: Deduplication Strategy
@@ -403,7 +403,7 @@ JobSource (ABC)
 
 **Solution: Composite unique key `(source, source_job_id)` with multi-layer dedup.**
 
-**Layer 1 — In-batch dedup (within a single `discover_source_task`):**
+**Layer 1 - In-batch dedup (within a single `discover_source_task`):**
 ```python
 # JobPersister.persist()
 seen: set[tuple[str, str]] = set()
@@ -416,13 +416,13 @@ for job in jobs_data:
     seen.add(key)
 ```
 
-**Layer 2 — Database unique constraint:**
+**Layer 2 - Database unique constraint:**
 ```python
 # Job model Meta
 UniqueConstraint(fields=["source", "source_job_id"], name="unique_job_per_source")
 ```
 
-**Layer 3 — Upsert on conflict:**
+**Layer 3 - Upsert on conflict:**
 ```python
 Job.objects.bulk_create(
     job_instances,
@@ -434,13 +434,13 @@ Job.objects.bulk_create(
 ```
 When a duplicate is detected, the existing row is **updated** (not skipped), ensuring fresh data (e.g., updated description, re-verified liveness).
 
-**Layer 4 — URL-based dedup for manual import:**
+**Layer 4 - URL-based dedup for manual import:**
 ```python
 # process_manual_job_link
 Job.objects.update_or_create(url=job_url, defaults={...})
 ```
 
-**Layer 5 — ScrapedJob-level URL dedup:**
+**Layer 5 - ScrapedJob-level URL dedup:**
 ```python
 # ResultNormalizer.deduplicate_jobs()
 # URL-based dedup preserving order (for LLM-extracted results)
@@ -454,12 +454,12 @@ Job.objects.update_or_create(url=job_url, defaults={...})
 **Trade-offs:**
 - **Pro:** The composite key allows the same role from different sources to coexist (different `source` values).
 - **Pro:** Upsert-on-conflict means re-scraping refreshes data rather than silently skipping.
-- **Con:** `source_job_id` collisions can occur if a provider reuses IDs across different job boards — mitigated by the `source` prefix.
+- **Con:** `source_job_id` collisions can occur if a provider reuses IDs across different job boards - mitigated by the `source` prefix.
 - **Con:** MD5-based fallback IDs are stable but opaque; debugging requires URL inspection.
 
 ### 8.3 Deep Dive: Pipeline Orchestration with Partial Failure
 
-**Problem:** A discovery run may scrape 10+ sources. Some will fail (timeouts, anti-bot blocks, API rate limits, site redesigns). The pipeline must not fail entirely because of one bad source — users expect to see whatever jobs were successfully scraped.
+**Problem:** A discovery run may scrape 10+ sources. Some will fail (timeouts, anti-bot blocks, API rate limits, site redesigns). The pipeline must not fail entirely because of one bad source - users expect to see whatever jobs were successfully scraped.
 
 **Solution: Chord-level failure isolation via error-dict contract.**
 
@@ -477,7 +477,7 @@ finally:
     return asdict(result)  # Always returns, never raises
 ```
 
-This ensures the **chord callback always fires** — Celery chords require all header tasks to complete (success or failure). By returning an error dict instead of raising, we guarantee the chord progresses.
+This ensures the **chord callback always fires** - Celery chords require all header tasks to complete (success or failure). By returning an error dict instead of raising, we guarantee the chord progresses.
 
 **Aggregation logic in `aggregate_scrape_results`:**
 ```python
@@ -511,7 +511,7 @@ else:
 # fan_out_embed
 if not job_ids:
     run.status = FAILED
-    self.request.chain = None  # Breaks the chain — match_task is ABORTED
+    self.request.chain = None  # Breaks the chain - match_task is ABORTED
     return zeroed_stats
 ```
 
@@ -525,14 +525,14 @@ DiscoveryRun.objects.filter(
 ```
 
 **Trade-offs:**
-- **Pro:** Partial failure is the default — users always see what succeeded.
+- **Pro:** Partial failure is the default - users always see what succeeded.
 - **Pro:** The `PARTIAL` status is surfaced to the frontend via SSE (`partial: true` flag), so the UI can show a warning.
-- **Con:** Error dicts are untyped — the aggregation logic relies on string parsing of `result["error"]`.
+- **Con:** Error dicts are untyped - the aggregation logic relies on string parsing of `result["error"]`.
 - **Mitigation:** `DiscoverySourceResult` dataclass provides structure; errors are logged with full context for debugging.
 
 ### 8.4 Deep Dive: Circuit Breaker Pattern
 
-**Problem:** Scrapling spiders and ATS providers can enter failure cascades — a site redesign breaks a spider, or an API starts rate-limiting aggressively. Retrying immediately wastes resources and can get IPs banned.
+**Problem:** Scrapling spiders and ATS providers can enter failure cascades - a site redesign breaks a spider, or an API starts rate-limiting aggressively. Retrying immediately wastes resources and can get IPs banned.
 
 **Solution: Per-source circuit breaker with Redis-backed state.**
 
@@ -566,13 +566,13 @@ for attempt in range(ASHBY_RETRIES + 1):
 ```
 
 **Task-level retry policy:**
-- `orchestrate_discovery`: `max_retries=2`, `retry_backoff=True` (safe — only dispatches).
+- `orchestrate_discovery`: `max_retries=2`, `retry_backoff=True` (safe - only dispatches).
 - `discover_source_task`: `max_retries=1`, `default_retry_delay=15`.
-- Chord callbacks (`aggregate_scrape_results`, `fan_out_embed`, `match_task`): **no retries** — terminal/aggregator phases.
+- Chord callbacks (`aggregate_scrape_results`, `fan_out_embed`, `match_task`): **no retries** - terminal/aggregator phases.
 
 **Adaptive selector persistence (`AdaptiveStorage`):**
 ```python
-# DjangoAdaptiveStorage — backed by ElementFingerprint rows
+# DjangoAdaptiveStorage - backed by ElementFingerprint rows
 def save(self, element, identifier):
     ElementFingerprint.objects.update_or_create(
         site_key=self.site_key,
@@ -596,7 +596,7 @@ When a site redesign breaks selectors, the adaptive system falls back to stored 
 
 ### 8.5 Deep Dive: SSE Progress Streaming
 
-**Problem:** Discovery runs take 30-180 seconds. Users need real-time feedback on which phase is running, which sources succeeded/failed, and when results are ready — without polling.
+**Problem:** Discovery runs take 30-180 seconds. Users need real-time feedback on which phase is running, which sources succeeded/failed, and when results are ready - without polling.
 
 **Solution: Redis Streams + Django Channels → SSE with reconnection replay.**
 
@@ -680,20 +680,20 @@ if run.status in (COMPLETED, PARTIAL, FAILED):
 # ProgressReporter also writes to Celery task state
 self.task.update_state(state="PROGRESS", meta=payload)
 ```
-This provides a non-SSE fallback — the frontend can poll task state if SSE is unavailable (e.g., corporate proxies blocking SSE).
+This provides a non-SSE fallback - the frontend can poll task state if SSE is unavailable (e.g., corporate proxies blocking SSE).
 
 **Trade-offs:**
 - **Pro:** Sub-500ms event delivery (Redis Streams + Channels is in-process for the Django server).
 - **Pro:** Reconnection replay handles unreliable networks transparently.
 - **Pro:** Dual-write (SSE + Celery state) provides a polling fallback.
-- **Con:** Redis Streams retention (`maxlen=200`) means very long runs may lose early events — acceptable since the client connects at run start.
-- **Con:** The heartbeat (20s) adds slight overhead per connected client — mitigated by Channels' efficient group management.
+- **Con:** Redis Streams retention (`maxlen=200`) means very long runs may lose early events - acceptable since the client connects at run start.
+- **Con:** The heartbeat (20s) adds slight overhead per connected client - mitigated by Channels' efficient group management.
 
 ---
 
 ## 9. Resolved Tricky Points
 
-1. **Chord callback starvation:** If a `discover_source_task` raised an exception, the chord callback would never fire and the run would hang until stale reaping. **Resolved:** Error-dict contract — tasks never raise.
+1. **Chord callback starvation:** If a `discover_source_task` raised an exception, the chord callback would never fire and the run would hang until stale reaping. **Resolved:** Error-dict contract - tasks never raise.
 
 2. **Shared state across Celery workers:** In-memory objects can't cross process boundaries. **Resolved:** The `DiscoveryRun` DB row is the single source of truth. Each task reconstructs `PipelineContext.from_run()`.
 
@@ -711,6 +711,6 @@ This provides a non-SSE fallback — the frontend can poll task state if SSE is 
 
 ## 11. Cross-References
 
-- [[Application Lifecycle & Browser Engine]] — downstream consumer of discovered jobs
-- [[Evaluations]] — triggered post-match for top job matches
-- [[AI Credits System]] — credit accounting (discovery is free-tier)
+- [[Application Lifecycle & Browser Engine]] - downstream consumer of discovered jobs
+- [[Evaluations]] - triggered post-match for top job matches
+- [[AI Credits System]] - credit accounting (discovery is free-tier)

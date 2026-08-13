@@ -5,11 +5,11 @@ order: 4
 ---
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!--  HIRE ME BANNER  — visible to every recruiter immediately  -->
+<!--  HIRE ME BANNER  - visible to every recruiter immediately  -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 
 > 🟢 **I'm currently open to new backend engineering opportunities.**
-> If you're building something ambitious with Python, Django, or distributed systems — [let's talk](mailto:yusufadell.dev@gmail.com?subject=Job%20Opportunity%20%E2%80%93%20Backend%20Engineer).
+> If you're building something ambitious with Python, Django, or distributed systems - [let's talk](mailto:yusufadell.dev@gmail.com?subject=Job%20Opportunity%20%E2%80%93%20Backend%20Engineer).
 > &nbsp;&nbsp;📧 [yusufadell.dev@gmail.com](mailto:yusufadell.dev@gmail.com?subject=Job%20Opportunity%20%E2%80%93%20Backend%20Engineer) &nbsp;|&nbsp; 💼 [LinkedIn](https://www.linkedin.com/in/yusufadell) &nbsp;|&nbsp; 🐙 [GitHub](https://github.com/shdwkl)
 {: .prompt-tip }
 
@@ -19,7 +19,7 @@ order: 4
 
 I'm a **Backend Software Engineer** based in Cairo, Egypt with 3+ years of professional experience building scalable backend systems in Python and Django. I've worked at a fintech company processing **$2M+/month**, a SaaS startup handling **30k+ API requests/day**, and shipped payment gateway integrations that moved real money.
 
-**This blog** is where I write atomic, precise notes on the computer science I study and the systems I build — from OS internals and distributed systems to backend engineering patterns. If you're learning the same things, I hope my notes save you time.
+**This blog** is where I write atomic, precise notes on the computer science I study and the systems I build - from OS internals and distributed systems to backend engineering patterns. If you're learning the same things, I hope my notes save you time.
 
 ---
 
@@ -99,7 +99,7 @@ Core Coursework: Computer Systems · Operating Systems · Algorithms & Data Stru
 
 ## Get In Touch
 
-Whether you have a job opportunity, a question about a post, or just want to talk backend systems — I'm happy to hear from you.
+Whether you have a job opportunity, a question about a post, or just want to talk backend systems - I'm happy to hear from you.
 
 | Channel | Link |
 |:---|:---|

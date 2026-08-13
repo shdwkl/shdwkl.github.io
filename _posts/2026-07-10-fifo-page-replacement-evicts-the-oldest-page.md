@@ -41,7 +41,7 @@ evict(victim);
 queue_enqueue(new_page);
 ```
 
-This simplicity is FIFO's main advantage—no tracking of accesses required.
+This simplicity is FIFO's main advantage-no tracking of accesses required.
 
 ## Worked Example
 
@@ -65,7 +65,7 @@ This simplicity is FIFO's main advantage—no tracking of accesses required.
 
 **FIFO: 9 faults** (vs. OPT's 7 faults)
 
-Notice how pages 0 and 1 are evicted despite being accessed repeatedly—FIFO doesn't consider usage patterns.
+Notice how pages 0 and 1 are evicted despite being accessed repeatedly-FIFO doesn't consider usage patterns.
 
 ## Bélády's Anomaly
 
@@ -74,7 +74,7 @@ FIFO exhibits a counterintuitive behavior: **adding more frames can increase fau
 - 3 frames: 9 faults
 - 4 frames: 10 faults
 
-This anomaly occurs because FIFO's eviction decisions don't correlate with optimal choices. LRU and other "stack algorithms" are immune to this anomaly—more memory always helps or stays the same.
+This anomaly occurs because FIFO's eviction decisions don't correlate with optimal choices. LRU and other "stack algorithms" are immune to this anomaly-more memory always helps or stays the same.
 
 ## Comparison with Scheduling FIFO
 
@@ -82,7 +82,7 @@ Like [[FIFO Scheduling is Simple but Suffers from Convoy Effect|FIFO scheduling]
 
 ## Why FIFO Fails
 
-FIFO assumes old pages are unused—but this isn't true:
+FIFO assumes old pages are unused-but this isn't true:
 
 - **Code pages**: Loaded early, used throughout execution
 - **Stack base**: Loaded at process start, always relevant

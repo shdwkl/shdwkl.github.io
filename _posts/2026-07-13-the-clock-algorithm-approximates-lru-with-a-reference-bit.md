@@ -79,7 +79,7 @@ Clock combines FIFO's simplicity with LRU's recency awareness:
 - **Like FIFO**: Pages ordered by load time (circular queue)
 - **Like LRU**: Recently-accessed pages get second chances
 
-The reference bit acts as a binary "recently used" indicator. When the hand sweeps, it clears bits—so a page must be accessed between sweeps to keep its protection.
+The reference bit acts as a binary "recently used" indicator. When the hand sweeps, it clears bits-so a page must be accessed between sweeps to keep its protection.
 
 ## Enhanced Clock: Considering Dirty Bit
 
@@ -96,7 +96,7 @@ This optimizes for both recency and I/O cost.
 
 ## Clock vs. LRU Performance
 
-Clock doesn't maintain exact recency order—it only knows "accessed since last sweep" (binary). For most workloads, this coarse approximation of [LRU Approximates Optimal by Evicting Least Recently Used Pages - LRU]({% post_url 2026-07-13-lru-approximates-optimal-by-evicting-least-recently-used-pages %}) suffices:
+Clock doesn't maintain exact recency order-it only knows "accessed since last sweep" (binary). For most workloads, this coarse approximation of [LRU Approximates Optimal by Evicting Least Recently Used Pages - LRU]({% post_url 2026-07-13-lru-approximates-optimal-by-evicting-least-recently-used-pages %}) suffices:
 
 - Near-LRU performance on typical workloads
 - O(1) overhead per memory access (hardware sets bit)

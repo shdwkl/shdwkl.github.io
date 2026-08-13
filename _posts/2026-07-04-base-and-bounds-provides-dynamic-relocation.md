@@ -67,7 +67,7 @@ When Process A references virtual address 0x1000 (4 KB), the hardware computes: 
 
 ## Why "Dynamic"
 
-Earlier approaches relocated programs at **load time** by rewriting addresses in the binary. Dynamic relocation happens at **runtime**—the binary is unchanged, and the hardware adds the base on every access. This means:
+Earlier approaches relocated programs at **load time** by rewriting addresses in the binary. Dynamic relocation happens at **runtime**-the binary is unchanged, and the hardware adds the base on every access. This means:
 
 - A process can be **moved** in physical memory (just update its base register).
 - The same binary can run at any physical location without modification.
@@ -75,4 +75,4 @@ Earlier approaches relocated programs at **load time** by rewriting addresses in
 
 ## Limitations
 
-Base-and-bounds is simple but wasteful. The entire address space—including the unused gap between heap and stack—must be allocated contiguously. If a process has a 16 KB address space but only uses 3 KB of heap and 1 KB of stack, the remaining 12 KB of its physical allocation is **internal waste** (later called internal fragmentation in the paging context). This waste motivates [[Segmentation Generalizes Base-and-Bounds with Multiple Segments|segmentation]], which assigns separate base-bounds pairs to each logical segment.
+Base-and-bounds is simple but wasteful. The entire address space-including the unused gap between heap and stack-must be allocated contiguously. If a process has a 16 KB address space but only uses 3 KB of heap and 1 KB of stack, the remaining 12 KB of its physical allocation is **internal waste** (later called internal fragmentation in the paging context). This waste motivates [[Segmentation Generalizes Base-and-Bounds with Multiple Segments|segmentation]], which assigns separate base-bounds pairs to each logical segment.

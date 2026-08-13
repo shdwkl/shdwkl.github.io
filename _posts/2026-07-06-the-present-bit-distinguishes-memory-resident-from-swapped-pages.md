@@ -25,7 +25,7 @@ categories: [books, OSTEP]
 
 # The Present Bit Distinguishes Memory-Resident from Swapped Pages
 
-> The present bit in each page table entry indicates whether a page currently resides in physical memory. When present = 1, the PFN field contains a valid frame number. When present = 0, the page exists but has been swapped to disk—the remaining PTE bits can store the disk location. This single bit is the hardware hook that makes demand paging possible.
+> The present bit in each page table entry indicates whether a page currently resides in physical memory. When present = 1, the PFN field contains a valid frame number. When present = 0, the page exists but has been swapped to disk-the remaining PTE bits can store the disk location. This single bit is the hardware hook that makes demand paging possible.
 {: .prompt-tip }
 
 ## Present vs. Valid: Two Different Questions
@@ -37,7 +37,7 @@ The page table entry contains both a **valid bit** and a **present bit**, which 
 | Valid | Does this virtual page exist at all? | Segmentation fault (invalid address) |
 | Present | Is this valid page in physical memory? | Page fault (fetch from disk) |
 
-A page can be valid but not present (swapped out). A page cannot be present but invalid—that would be nonsensical.
+A page can be valid but not present (swapped out). A page cannot be present but invalid-that would be nonsensical.
 
 ## Hardware Interpretation
 
@@ -53,7 +53,7 @@ Check present bit
   → If 1: extract PFN, form physical address
 ```
 
-The hardware needs only one bit to trigger the page fault exception. Everything else—finding the page on disk, loading it, updating the PTE—is the OS's responsibility.
+The hardware needs only one bit to trigger the page fault exception. Everything else-finding the page on disk, loading it, updating the PTE-is the OS's responsibility.
 
 ## Repurposing PTE Bits When Not Present
 
@@ -92,7 +92,7 @@ Demand paging relies entirely on this mechanism:
 3. OS loads page, sets present = 1
 4. Subsequent accesses proceed without faults
 
-This lazy loading means processes start faster and use only the memory they actually touch—a significant efficiency gain over loading everything upfront.
+This lazy loading means processes start faster and use only the memory they actually touch-a significant efficiency gain over loading everything upfront.
 
 ## Dirty Bit Interaction
 

@@ -24,14 +24,14 @@ categories: [books, OSTEP]
 
 # Optimal Page Replacement Sets the Theoretical Lower Bound
 
-> The optimal (OPT or MIN) page replacement algorithm evicts the page that will be accessed furthest in the future. This minimizes page faults for any given reference string, but requires knowledge of future accesses—making it impossible to implement in practice. OPT serves as a theoretical benchmark to evaluate how well real algorithms perform.
+> The optimal (OPT or MIN) page replacement algorithm evicts the page that will be accessed furthest in the future. This minimizes page faults for any given reference string, but requires knowledge of future accesses-making it impossible to implement in practice. OPT serves as a theoretical benchmark to evaluate how well real algorithms perform.
 {: .prompt-tip }
 
 ## The Optimal Strategy
 
 When a page fault occurs and memory is full, OPT examines all pages currently in memory and asks: "When will each page next be used?" It evicts the page whose next access is furthest away. If a page will never be accessed again, it's the ideal eviction candidate.
 
-This strategy is provably optimal—no other algorithm can achieve fewer page faults for a given reference string and memory size.
+This strategy is provably optimal-no other algorithm can achieve fewer page faults for a given reference string and memory size.
 
 ## Worked Example
 
@@ -57,7 +57,7 @@ This strategy is provably optimal—no other algorithm can achieve fewer page fa
 
 ## Why OPT Is Impossible to Implement
 
-OPT requires knowledge of future memory accesses, which the OS doesn't have. The reference string unfolds as the program runs—we can't look ahead. This makes OPT a theoretical construct, not a practical algorithm.
+OPT requires knowledge of future memory accesses, which the OS doesn't have. The reference string unfolds as the program runs-we can't look ahead. This makes OPT a theoretical construct, not a practical algorithm.
 
 However, OPT remains valuable:
 
@@ -77,4 +77,4 @@ Since we can't know the future, practical algorithms use the **past** as a predi
 - [The Clock Algorithm Approximates LRU with a Reference Bit \| Clock]({% post_url 2026-07-13-the-clock-algorithm-approximates-lru-with-a-reference-bit %}): Approximate LRU with hardware support
 
 
-The key insight: programs exhibit **temporal locality**—recently used pages are likely to be used again soon. This makes past usage a reasonable proxy for future usage.
+The key insight: programs exhibit **temporal locality**-recently used pages are likely to be used again soon. This makes past usage a reasonable proxy for future usage.

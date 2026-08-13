@@ -22,7 +22,7 @@ categories: [books, OSTEP]
 
 # Segmentation Generalizes Base-and-Bounds with Multiple Segments
 
-> Segmentation extends dynamic relocation by giving each logical segment of the address space (code, heap, stack) its own base-bounds pair. Instead of allocating the entire address space contiguously—including unused gaps—the hardware maps only the segments that actually contain data. This eliminates the internal waste of simple base-and-bounds while preserving transparent address translation.
+> Segmentation extends dynamic relocation by giving each logical segment of the address space (code, heap, stack) its own base-bounds pair. Instead of allocating the entire address space contiguously-including unused gaps-the hardware maps only the segments that actually contain data. This eliminates the internal waste of simple base-and-bounds while preserving transparent address translation.
 {: .prompt-tip }
 
 ## The Problem with a Single Base-Bounds
@@ -41,7 +41,7 @@ Heap      34 KB      3 KB     Yes
 Stack     28 KB      2 KB     No
 ```
 
-Only the occupied portions of the address space consume physical memory. The gap between heap and stack simply does not exist in physical memory—no physical frames are wasted.
+Only the occupied portions of the address space consume physical memory. The gap between heap and stack simply does not exist in physical memory-no physical frames are wasted.
 
 ## Address Translation with Segments
 
@@ -68,6 +68,6 @@ The [[The Segment Table Maps Segment Numbers to Base-Bounds Pairs|segment table]
 
 ## What Segmentation Achieves
 
-Segmentation solves the internal waste problem: physical memory only backs segments that contain actual data. It also enables **sharing**—two processes can point their code segments at the same physical region if they run the same program, provided the segment is marked read-only.
+Segmentation solves the internal waste problem: physical memory only backs segments that contain actual data. It also enables **sharing**-two processes can point their code segments at the same physical region if they run the same program, provided the segment is marked read-only.
 
-However, because segments are variable-sized, physical memory develops [[External Fragmentation Wastes Memory Between Variable-Sized Segments|external fragmentation]]—small unusable holes between allocated segments. This limitation motivates fixed-size allocation via paging.
+However, because segments are variable-sized, physical memory develops [[External Fragmentation Wastes Memory Between Variable-Sized Segments|external fragmentation]]-small unusable holes between allocated segments. This limitation motivates fixed-size allocation via paging.
