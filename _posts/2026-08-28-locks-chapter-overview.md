@@ -27,11 +27,11 @@ This chapter explores how to build locks from the ground up, starting with hardw
 
 ## Key Concepts
 
-*   [[Lock Design Goals - Mutual Exclusion Fairness and Performance]] - What makes a good lock?
+*   [Lock Design Goals - Mutual Exclusion Fairness and Performance]({% post_url 2026-08-28-lock-design-goals-mutual-exclusion-fairness-and-performance %}) - What makes a good lock?
 *   [[Spin Locks rely on Busy Waiting]] - The simplest lock, but wasteful of CPU.
 *   [[Test-and-Set Instruction Enables Atomic Locking]] - The hardware support needed for basic spin locks.
 *   [[Compare-and-Swap Provides Powerful Atomic Update]] - A more general synchronization primitive.
 *   [[Ticket Locks Ensure Fairness with Fetch-and-Add]] - How to guarantee every thread gets a turn.
 *   [[Yielding Locks Avoid Spinning but Incur Context Switches]] - Cooperating with the OS scheduler.
 *   [[Queue-Based Locks Put Waiting Threads to Sleep]] - Explicitly managing waiting threads (Solaris/Linux implementation).
-*   [[Two-Phase Locks Combine Spinning and Sleeping]] - A hybrid approach used in Linux.
+*   [Two-Phase Locks Combine Spinning and Sleeping]({% post_url 2026-08-28-two-phase-locks-combine-spinning-and-sleeping %}) - A hybrid approach used in Linux.

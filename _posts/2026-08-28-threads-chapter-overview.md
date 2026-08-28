@@ -19,11 +19,11 @@ This chapter introduces the concept of **threads**, a fundamental abstraction fo
 
 ## Key Concepts
 
-*   **[[Thread vs Process - Shared Address Space]]**: Understanding the key difference: processes have private memory, while threads share the address space (specifically the heap and code, but have private stacks).
+*   **[Thread vs Process - Shared Address Space]({% post_url 2026-08-28-thread-vs-process-shared-address-space %})**: Understanding the key difference: processes have private memory, while threads share the address space (specifically the heap and code, but have private stacks).
 *   **[[Why Use Threads - Parallelism and Responsiveness]]**: The two main motivations for multi-threading: speeding up execution on multi-core hardware and keeping applications responsive during blocking I/O operations.
 *   **[[Thread Creation and Execution Model]]**: How threads are spawned and managed by the OS, including the unique layout of a multi-threaded address space with multiple stacks.
 *   **[[Race Conditions lead to Non-Deterministic Behavior]]**: The danger of uncontrolled access to shared data, where the outcome of a program depends on the unlucky timing of thread execution.
-*   **[[Critical Sections Require Mutual Exclusion]]**: The solution to race conditions—identifying code segments that access shared resources and ensuring only one thread executes them at a time.
+*   **[Critical Sections Require Mutual Exclusion]({% post_url 2026-08-28-critical-sections-require-mutual-exclusion %})**: The solution to race conditions—identifying code segments that access shared resources and ensuring only one thread executes them at a time.
 
 ## Summary
 

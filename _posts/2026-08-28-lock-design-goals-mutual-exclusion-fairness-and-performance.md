@@ -2,7 +2,6 @@
 layout: post
 title: Lock Design Goals - Mutual Exclusion Fairness and Performance
 date: 2026-08-28 14:37 +0300
-
 type: mechanism
 source: "OSTEP Ch. 28: Locks"
 tags:
