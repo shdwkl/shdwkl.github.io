@@ -301,4 +301,4 @@ Frontend config: no env change needed — `BROWSER_CDP_URL` stays internal. BYO 
 * **`MAX_BLOCKED_RETRIES 3→2` ADR** — one stealthy retry captures `solve_cloudflare` value; second loop is waste and never helped Brunhild transient.
 
 
-**Related:** [Browserless Separate Compose](browserless-separate-service.md) · [Browser Automation Engine (Autofill)](../../docs/architecture/browser-automation-system-design.md) · [App Browser Manager](app_browser_manager.md) · [Celery Routing](celery_routing_architecture.md) · [Scrapling Integration](SCRAPLING-INTEGRATION.md) · [Docker Compose vs K8s](docker-compose-vs-kubernetes.md)
+<!-- **Related:** [Browserless Separate Compose](browserless-separate-service.md) · [Browser Automation Engine (Autofill)](../../docs/architecture/browser-automation-system-design.md) · [App Browser Manager](app_browser_manager.md) · [Celery Routing](celery_routing_architecture.md) · [Scrapling Integration](SCRAPLING-INTEGRATION.md) · [Docker Compose vs K8s](docker-compose-vs-kubernetes.md) -->
